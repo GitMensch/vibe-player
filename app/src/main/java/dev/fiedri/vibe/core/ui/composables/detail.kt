@@ -1,4 +1,4 @@
-package dev.fiedri.vibe.core.ui.screen
+package dev.fiedri.vibe.core.ui.composables
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
@@ -40,8 +39,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.fiedri.vibe.R
-import dev.fiedri.vibe.core.ui.composables.CardData
-import dev.fiedri.vibe.core.ui.composables.ThumbnailCard
 import dev.fiedri.vibe.core.ui.theme.VibeTheme
 
 enum class EntityType(val kicker: String, val emptyStateText: String) {
@@ -56,7 +53,7 @@ data class DetailHeader(
 )
 
 data class DetailResources(
-    val songs: List<SongCardData>,
+    val songs: List<SongCardUiState>,
     val albums: List<CardData> = emptyList()
 )
 @Composable
@@ -68,7 +65,7 @@ fun DetailsScreen(
     onBack: () -> Unit = {},
     onPlay: () -> Unit = {},
     onShuffle: () -> Unit = {},
-    onSongClick: (SongCardData) -> Unit = {}
+    onSongClick: (SongCardUiState) -> Unit = {}
 ) {
     LazyColumn(modifier = modifier.fillMaxSize().background(VibeTheme.colors.background)) {
         item {

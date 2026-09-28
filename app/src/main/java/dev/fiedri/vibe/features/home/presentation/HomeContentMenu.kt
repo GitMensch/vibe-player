@@ -1,4 +1,4 @@
-package dev.fiedri.vibe.core.ui.composables
+package dev.fiedri.vibe.features.home.presentation
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.core.animateFloatAsState
@@ -88,11 +88,11 @@ fun HomeMenu(
         label = "chevronRotation"
     )
 
-    VibeMenu(
+    _root_ide_package_.dev.fiedri.vibe.core.ui.composables.VibeMenu(
         expanded = expanded,
         onDismissRequest = onDismissRequest
     ) {
-        VibeMenuItem(
+        _root_ide_package_.dev.fiedri.vibe.core.ui.composables.VibeMenuItem(
             text = stringResource(R.string.menus_home_overflow_menu_refresh_library),
             onClick = {
                 onRefreshLibrary()
@@ -107,7 +107,7 @@ fun HomeMenu(
             }
         )
         if (sortable) {
-            VibeMenuItem(
+            _root_ide_package_.dev.fiedri.vibe.core.ui.composables.VibeMenuItem(
                 text = stringResource(R.string.menus_home_overflow_menu_order_by),
                 onClick = { sortExpanded = !sortExpanded },
                 trailingIcon = {
@@ -123,7 +123,7 @@ fun HomeMenu(
         }
         if (sortable && sortExpanded) {
             fields.forEach { field ->
-                VibeMenuItem(
+                _root_ide_package_.dev.fiedri.vibe.core.ui.composables.VibeMenuItem(
                     text = stringResource(field.labelRes),
                     onClick = {
                         selectedField = field
@@ -139,7 +139,7 @@ fun HomeMenu(
                     .height(1.dp)
                     .background(VibeTheme.colors.border)
             )
-            VibeMenuItem(
+            _root_ide_package_.dev.fiedri.vibe.core.ui.composables.VibeMenuItem(
                 text = stringResource(R.string.menus_home_overflow_menu_order_by_options_asc),
                 onClick = {
                     ascending = true
@@ -148,7 +148,7 @@ fun HomeMenu(
                 },
                 trailingIcon = { SortRadioGlyph(selected = ascending) }
             )
-            VibeMenuItem(
+            _root_ide_package_.dev.fiedri.vibe.core.ui.composables.VibeMenuItem(
                 text = stringResource(R.string.menus_home_overflow_menu_order_by_options_desc),
                 onClick = {
                     ascending = false

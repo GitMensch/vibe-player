@@ -87,94 +87,95 @@ private fun formatMs(ms: Long): String {
 
 private val MiniPlayerHeight = 92.dp
 
+data class PlayerUiState(
+    val currentSong: Song? = null,
+    val isPlaying: Boolean = false,
+    val currentTimeMs: Long = 0L,
+    val durationMs: Long = 0L,
+    val currentSongIndex: Int = 0,
+    val numberOfSongs: Int = 0,
+    val isShuffle: Boolean = false,
+    val repeatMode: PlayerState = PlayerState.REPEAT_OFF,
+    val isExpanded: Boolean = false
+)
+
 @Composable
 fun Player(
+    uiState: PlayerUiState,
     modifier: Modifier = Modifier,
-    currentSong: Song?,
-    isPlaying: Boolean,
-    currentTimeMs: Long,
-    durationMs: Long,
-    currentSongIndex: Int,
-    numberOfSongs: Int,
-    isShuffle: Boolean,
-    repeatMode: PlayerState,
-    isExpanded: Boolean,
-    onTogglePlay: ()-> Unit,
-    onNext: ()-> Unit,
-    onPrevious: ()-> Unit,
+    onTogglePlay: () -> Unit,
+    onNext: () -> Unit,
+    onPrevious: () -> Unit,
     onSeek: (Long) -> Unit,
-    onToggleShuffle: ()-> Unit,
-    onCycleRepeat: ()-> Unit,
-    onToogleExpand: ()-> Unit
+    onToggleShuffle: () -> Unit,
+    onCycleRepeat: () -> Unit,
+    onToggleExpand: () -> Unit
 ) {
-
-BoxWithConstraints(
-    modifier = modifier.fillMaxSize(),
-    contentAlignment = Alignment.BottomCenter
-
-) {
-    val playerHeight by animateDpAsState(
-        targetValue = if (isExpanded) maxHeight else MiniPlayerHeight,
-        animationSpec = spring(
-            dampingRatio = Spring.DampingRatioNoBouncy,
-            stiffness = Spring.StiffnessMediumLow
-        ),
-        label = "playerExpand"
-    )
-
-
-    Surface(
-        modifier = Modifier.fillMaxWidth().height(playerHeight).align(Alignment.BottomCenter),
-        color = VibeTheme.colors.cards
+    BoxWithConstraints(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter
     ) {
-        AnimatedVisibility(
-            visible = !isExpanded,
-            modifier = Modifier.align(
-                Alignment.BottomCenter
+        val playerHeight by animateDpAsState(
+            targetValue = if (uiState.isExpanded) maxHeight else MiniPlayerHeight,
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioNoBouncy,
+                stiffness = Spring.StiffnessMediumLow
             ),
-            enter = fadeIn(tween(200)),
-            exit = fadeOut(tween(120))
-        ) {
-            MiniPlayer(
-                currentSong = currentSong,
-                isPlaying = isPlaying,
-                currentTimeMs = currentTimeMs,
-                durationMs = durationMs,
-                onTogglePlay = onTogglePlay,
-                onPrevious = onPrevious,
-                onNext = onNext,
-                onSeek = onSeek,
-                onExpand = onToogleExpand
-            )
+            label = "playerExpand"
+        )
 
-        }
-        AnimatedVisibility(
-            visible = isExpanded,
-            modifier = Modifier.fillMaxSize(),
-            enter = fadeIn(tween(300)),
-            exit = fadeOut(tween(120))
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(playerHeight)
+                .align(Alignment.BottomCenter),
+            color = VibeTheme.colors.cards
         ) {
-            ExpandedPlayer(
-                currentSong = currentSong,
-                isPlaying = isPlaying,
-                currentTimeMs = currentTimeMs,
-                durationMs = durationMs,
-                currentSongIndex = currentSongIndex,
-                numberOfSongs = numberOfSongs,
-                isShuffle = isShuffle,
-                repeatMode = repeatMode,
-                onTogglePlay = onTogglePlay,
-                onNext = onNext,
-                onPrevious = onPrevious,
-                onSeek = onSeek,
-                onToggleShuffle = onToggleShuffle,
-                onCycleRepeat = onCycleRepeat,
-                onCollapse = onToogleExpand
-            )
-        }
+            AnimatedVisibility(
+                visible = !uiState.isExpanded,
+                modifier = Modifier.align(Alignment.BottomCenter),
+                enter = fadeIn(tween(200)),
+                exit = fadeOut(tween(120))
+            ) {
+                MiniPlayer(
+                    currentSong = uiState.currentSong,
+                    isPlaying = uiState.isPlaying,
+                    currentTimeMs = uiState.currentTimeMs,
+                    durationMs = uiState.durationMs,
+                    onTogglePlay = onTogglePlay,
+                    onPrevious = onPrevious,
+                    onNext = onNext,
+                    onSeek = onSeek,
+                    onExpand = onToggleExpand
+                )
+            }
 
+            AnimatedVisibility(
+                visible = uiState.isExpanded,
+                modifier = Modifier.fillMaxSize(),
+                enter = fadeIn(tween(300)),
+                exit = fadeOut(tween(120))
+            ) {
+                ExpandedPlayer(
+                    currentSong = uiState.currentSong,
+                    isPlaying = uiState.isPlaying,
+                    currentTimeMs = uiState.currentTimeMs,
+                    durationMs = uiState.durationMs,
+                    currentSongIndex = uiState.currentSongIndex,
+                    numberOfSongs = uiState.numberOfSongs,
+                    isShuffle = uiState.isShuffle,
+                    repeatMode = uiState.repeatMode,
+                    onTogglePlay = onTogglePlay,
+                    onNext = onNext,
+                    onPrevious = onPrevious,
+                    onSeek = onSeek,
+                    onToggleShuffle = onToggleShuffle,
+                    onCycleRepeat = onCycleRepeat,
+                    onCollapse = onToggleExpand
+                )
+            }
+        }
     }
-}
 }
 
 @Composable

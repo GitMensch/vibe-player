@@ -1,15 +1,15 @@
-package dev.fiedri.vibe.features
+package dev.fiedri.vibe.features.artists.presentation
 
 import dev.fiedri.vibe.R
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import dev.fiedri.vibe.core.ui.composables.CardData
-import dev.fiedri.vibe.core.ui.screen.DetailHeader
-import dev.fiedri.vibe.core.ui.screen.DetailResources
-import dev.fiedri.vibe.core.ui.screen.DetailsScreen
-import dev.fiedri.vibe.core.ui.screen.EntityType
+import dev.fiedri.vibe.core.ui.composables.DetailHeader
+import dev.fiedri.vibe.core.ui.composables.DetailResources
+import dev.fiedri.vibe.core.ui.composables.DetailsScreen
+import dev.fiedri.vibe.core.ui.composables.EntityType
 import dev.fiedri.vibe.core.ui.screen.SongCardData
-import dev.fiedri.vibe.navigation.LocalNavigator
+import dev.fiedri.vibe.core.ui.LocalNavigator
 
 @Composable
 fun ArtistDetailsScreen(name: String) {

@@ -1,10 +1,9 @@
-package dev.fiedri.vibe
+package dev.fiedri.vibe.core.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import dev.fiedri.vibe.core.ui.VibeApp
 import dev.fiedri.vibe.core.ui.theme.VibeTheme
 
 class MainActivity : ComponentActivity() {

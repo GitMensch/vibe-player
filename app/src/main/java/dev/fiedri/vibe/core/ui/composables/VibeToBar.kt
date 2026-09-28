@@ -31,10 +31,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.fiedri.vibe.R
 import dev.fiedri.vibe.core.ui.theme.VibeTheme
+import dev.fiedri.vibe.features.home.presentation.HomeMenu
 
 
 @Composable
-fun VibeToBar(
+fun VibeTopBar(
     tabs: List<String>,
     activeTab: String,
     onTabSelected: (String) -> Unit,

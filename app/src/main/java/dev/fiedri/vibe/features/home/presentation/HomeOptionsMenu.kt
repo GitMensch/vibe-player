@@ -1,4 +1,4 @@
-package dev.fiedri.vibe.core.ui.composables
+package dev.fiedri.vibe.features.home.presentation
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.EnterTransition
@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.fiedri.vibe.R
+import dev.fiedri.vibe.core.ui.composables.borderBotton
 import dev.fiedri.vibe.core.ui.theme.VibeTheme
 
 @Composable

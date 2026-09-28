@@ -1,10 +1,12 @@
-package dev.fiedri.vibe.features.home
+package dev.fiedri.vibe.features.home.presentation
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -15,17 +17,16 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import dev.fiedri.vibe.core.ui.composables.Pager
-import dev.fiedri.vibe.core.ui.composables.SettingsDrawer
-import dev.fiedri.vibe.core.ui.composables.VibeToBar
+import dev.fiedri.vibe.core.ui.composables.VibeTopBar
 import dev.fiedri.vibe.core.ui.theme.VibeTheme
-import dev.fiedri.vibe.features.player.presentation.Player
-import dev.fiedri.vibe.features.player.presentation.PlayerState
-import dev.fiedri.vibe.features.player.presentation.Song
-import dev.fiedri.vibe.navigation.LocalNavigator
-import dev.fiedri.vibe.navigation.Search
-import dev.fiedri.vibe.navigation.Settings
+import dev.fiedri.vibe.core.ui.LocalNavigator
+import dev.fiedri.vibe.core.ui.PlaylistDetail
+import dev.fiedri.vibe.core.ui.Search
+import dev.fiedri.vibe.core.ui.Settings
+import dev.fiedri.vibe.features.albums.presentation.AlbumsScreen
+import dev.fiedri.vibe.features.artists.presentation.ArtistsScreen
+import dev.fiedri.vibe.features.playlists.presentation.PlaylistsScreen
+import dev.fiedri.vibe.features.songs.presentation.SongsScreen
 import kotlinx.coroutines.launch
 
 @Composable
@@ -42,7 +43,7 @@ fun HomeLayout(){
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             topBar = {
-                VibeToBar(
+                VibeTopBar(
                     tabs = tabs,
                     activeTab = tabs[pagerState.currentPage],
                     onTabSelected = { selectedTab ->
@@ -76,4 +77,34 @@ fun HomeLayout(){
     }
 
 
+}
+
+@Composable
+internal fun Pager(
+    pagerState: PagerState,
+    tabs: List<String>,
+    innerPadding: PaddingValues
+) {
+    val navigator = LocalNavigator.current
+    HorizontalPager(
+        state = pagerState,
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(innerPadding)
+    ) { pageIndex ->
+
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            when(pageIndex){
+                0 -> SongsScreen()
+                1 -> ArtistsScreen()
+                2 -> AlbumsScreen()
+                3-> PlaylistsScreen(
+                    onPlaylistClick = { playlist -> navigator?.navigate(PlaylistDetail(playlist.id)) }
+                )
+            }
+        }
+    }
 }

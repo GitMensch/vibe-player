@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import dev.fiedri.vibe.features.player.presentation.Player
 import dev.fiedri.vibe.features.player.presentation.PlayerState
 import dev.fiedri.vibe.features.player.presentation.Song
-import dev.fiedri.vibe.navigation.VibeNavGraph
 
 @Composable
 fun VibeApp(){
