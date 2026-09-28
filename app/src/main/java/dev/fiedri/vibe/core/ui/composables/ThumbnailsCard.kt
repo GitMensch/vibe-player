@@ -10,15 +10,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import dev.fiedri.vibe.R
 import dev.fiedri.vibe.core.ui.theme.VibeTheme
 
 @Composable
-fun ThumbnailCard(title: String, subtitle: String, img: Int = R.drawable.default_artist){
+fun ThumbnailCard(
+    title: String,
+    subtitle: String? = null,
+    img: Int = R.drawable.default_artist,
+    modifier: Modifier = Modifier
+){
 
         Column(
-            modifier = Modifier.fillMaxWidth()
+            modifier = modifier.fillMaxWidth()
         ) {
             Box(modifier = Modifier
                 .fillMaxWidth()
@@ -34,7 +38,7 @@ fun ThumbnailCard(title: String, subtitle: String, img: Int = R.drawable.default
                 style = VibeTheme.typography.titleLarge
             )
 
-            if(!subtitle.isEmpty()){
+            if (!subtitle.isNullOrEmpty()){
                 Text(
                     subtitle,
                     color = VibeTheme.colors.mutedForeground,

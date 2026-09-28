@@ -16,41 +16,36 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.fiedri.vibe.R
 import dev.fiedri.vibe.core.ui.theme.VibeTheme
 
-fun Modifier.borderBotton(
-    color: Color,
-    width: Dp = 4.dp
-): Modifier = this.drawBehind {
-    val strokeWidth = width.toPx()
-    drawLine(
-        color = color,
-        start = Offset(0f, size.height),
-        end = Offset(size.width, size.height),
-        strokeWidth = strokeWidth
-    )
-}
 
 @Composable
 fun VibeToBar(
     tabs: List<String>,
     activeTab: String,
-    onTabSelected: (String) -> Unit
+    onTabSelected: (String) -> Unit,
+    onMenuClick: () -> Unit = {},
+    onSearchClick: () -> Unit = {},
+    onOverflowClick: () -> Unit = {}
 ){
     val borderColor = VibeTheme.colors.muted
     val primaryColor = VibeTheme.colors.primary
+
+    var overflowExpanded by remember { mutableStateOf(false) }
 
     val tabPositions = remember { mutableStateMapOf<String, Float>() }
 
@@ -70,19 +65,29 @@ fun VibeToBar(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(onClick = { }) {
-                Icon(Icons.Default.Menu, contentDescription = "Abrir menú", tint = VibeTheme.colors.foreground,
+            IconButton(onClick = onMenuClick) {
+                Icon(Icons.Default.Menu, contentDescription = stringResource(R.string.menus_open), tint = VibeTheme.colors.foreground,
                     modifier = Modifier.size(30.dp))
             }
             Text(text = "VIBE", color = VibeTheme.colors.foreground, fontSize = 24.sp)
             Row() {
-                IconButton(onClick = {}) {
+                IconButton(onClick = onSearchClick) {
                     Icon(Icons.Default.Search, contentDescription = "Buscar", tint = VibeTheme.colors.foreground,
                         modifier = Modifier.size(30.dp))
                 }
-                IconButton(onClick = {}) {
-                    Icon(Icons.Default.MoreVert, contentDescription = "Buscar", tint = VibeTheme.colors.foreground,
-                        modifier = Modifier.size(25.dp))
+                Box {
+                    IconButton(onClick = {
+                        onOverflowClick()
+                        overflowExpanded = !overflowExpanded
+                    }) {
+                        Icon(Icons.Default.MoreVert, contentDescription = "Buscar", tint = VibeTheme.colors.foreground,
+                            modifier = Modifier.size(25.dp))
+                    }
+                    HomeMenu(
+                        activeTab = activeTab,
+                        expanded = overflowExpanded,
+                        onDismissRequest = { overflowExpanded = false }
+                    )
                 }
             }
         }

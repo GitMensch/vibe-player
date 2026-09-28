@@ -6,11 +6,15 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.navigation3.ui.NavDisplay
 import dev.fiedri.vibe.features.home.HomeLayout
-import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
+import dev.fiedri.vibe.features.AlbumDetailsScreen
+import dev.fiedri.vibe.features.ArtistDetailsScreen
+import dev.fiedri.vibe.features.PlaylistDetailsScreen
+import dev.fiedri.vibe.core.ui.screen.SearchScreen
+import dev.fiedri.vibe.features.settings.presentation.SettingsScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -51,11 +55,16 @@ fun VibeNavGraph(){
 
                 entry<Home> { HomeLayout() }
                 entry<AlbumDetail> { key ->
-                    Text("Álbum: ${key.id}") }
-                entry<ArtistDetail> { Text("Aun no disponible") }   // key: NavEntry
-                entry<PlaylistDetail> { Text("Aun no disponible") }
-                entry<Settings> { Text("Aun no disponible") }
-                entry<Search> { Text("Aun no disponible") }
+                    AlbumDetailsScreen(key.id)
+                }
+                entry<ArtistDetail> { key ->
+                    ArtistDetailsScreen(key.name)
+                }   // key: NavEntry
+                entry<PlaylistDetail> { key ->
+                    PlaylistDetailsScreen(key.id)
+                }
+                entry<Settings> { SettingsScreen() }
+                entry<Search> { SearchScreen(onBack = { navigator.goBack() }) }
 
 
             }

@@ -15,7 +15,11 @@ data class VibeColors(
     val mutedForeground: Color,
     val destructive: Color,
     val border: Color,
-    val ring: Color
+    val input: Color,
+    val ring: Color,
+    val primaryForeground: Color,
+    val secondaryForeground: Color,
+    val destructiveForeground: Color
 ) {
     val accent: Color = primary
 }
@@ -31,7 +35,11 @@ val VibeDarkColors = VibeColors(
     mutedForeground= Color(0xFFaab4b9),
     destructive= Color(0xFFff6467),
     border= Color.White.copy(alpha = 0.1f),
-    ring = Color(0xFF758a94)
+    input = Color.White.copy(alpha = 0.15f),
+    ring = Color(0xFF758a94),
+    primaryForeground    = Color(0xFFF8FAFC),
+    secondaryForeground  = Color(0xFFF8FAFC),
+    destructiveForeground = Color(0xFF000000)
 )
 
 val VibeLightColors = VibeColors(
@@ -45,5 +53,9 @@ val VibeLightColors = VibeColors(
     mutedForeground = Color(0xFF64748B),
     destructive = Color(0xFFEF4444),
     border = Color(0xFFE2E8F0),
-    ring = Color(0xFF4F46E5)
+    input = Color(0xFFEEEEEE),
+    ring = Color(0xFF4F46E5),
+    primaryForeground    = Color(0xFFFFFFFF),
+    secondaryForeground  = Color(0xFF0F172A),
+    destructiveForeground = Color(0xFFFFFFFF)
 )

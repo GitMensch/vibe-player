@@ -1,8 +1,10 @@
 package dev.fiedri.vibe.features.home
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -13,12 +15,17 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import dev.fiedri.vibe.core.ui.composables.Pager
+import dev.fiedri.vibe.core.ui.composables.SettingsDrawer
 import dev.fiedri.vibe.core.ui.composables.VibeToBar
 import dev.fiedri.vibe.core.ui.theme.VibeTheme
 import dev.fiedri.vibe.features.player.presentation.Player
 import dev.fiedri.vibe.features.player.presentation.PlayerState
 import dev.fiedri.vibe.features.player.presentation.Song
+import dev.fiedri.vibe.navigation.LocalNavigator
+import dev.fiedri.vibe.navigation.Search
+import dev.fiedri.vibe.navigation.Settings
 import kotlinx.coroutines.launch
 
 @Composable
@@ -26,24 +33,13 @@ fun HomeLayout(){
     val tabs = listOf("Songs", "Artists", "Albums", "Playlist")
     val pagerState = rememberPagerState(pageCount = { tabs.size })
     val coroutineScope = rememberCoroutineScope()
-    var isPlaying by remember { mutableStateOf(false) }
-    var isExpanded by remember { mutableStateOf(false) }
-    val fakeSong = remember {
-        Song(
-            title = "Sobreviviendo a la migración",
-            artist = "Big Pickle",
-            album = "Vibe Sessions",
-            uri = "content://fake",
-            albumArtUri = null,
-            durationMs = 3_000_000
-        )
-    }
-    BackHandler(enabled = isExpanded) {
-        if(isExpanded){
-            isExpanded = false
-        }
-    }
-    Box(Modifier.fillMaxSize()){
+    val navigator = LocalNavigator.current
+
+    var drawerOpen by remember { mutableStateOf(false) }
+
+    BackHandler(enabled = drawerOpen) { drawerOpen = false }
+
+    Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             topBar = {
                 VibeToBar(
@@ -57,12 +53,11 @@ fun HomeLayout(){
                                 pagerState.animateScrollToPage(targetIndex)
                             }
                         }
-                    }
+                    },
+                    onMenuClick = { drawerOpen = true },
+                    onSearchClick = { navigator?.navigate(Search) }
                 )
             },
-
-
-
             containerColor = VibeTheme.colors.background,
             modifier = Modifier.fillMaxSize()
         ) { innerPadding ->
@@ -72,24 +67,13 @@ fun HomeLayout(){
                 innerPadding = innerPadding
             )
         }
-        Player(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            currentSong = fakeSong,
-            isPlaying = isPlaying,
-            currentTimeMs = 45_000,
-            durationMs = fakeSong.durationMs,
-            currentSongIndex = 0,
-            numberOfSongs = 1,
-            isShuffle = false,
-            repeatMode = PlayerState.REPEAT_OFF,
-            isExpanded = isExpanded,
-            onTogglePlay = { isPlaying = !isPlaying },
-            onNext = {},
-            onPrevious = {},
-            onSeek = {},
-            onToggleShuffle = {},
-            onCycleRepeat = {},
-            onToogleExpand = { isExpanded = !isExpanded },
+
+        SettingsDrawer(
+            open = drawerOpen,
+            onDismissRequest = { drawerOpen = false },
+            onSettingsClick = { navigator?.navigate(Settings) }
         )
     }
+
+
 }

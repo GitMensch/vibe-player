@@ -53,6 +53,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -317,6 +318,7 @@ private fun ExpandedPlayer(
     onCollapse: () -> Unit
 ) {
     val primary = VibeTheme.colors.primary
+    var menuOpen by remember { mutableStateOf(false) }
     val glowColor = primary.copy(alpha = 0.5f)
     val coverFilter = remember {
         val matrix = ColorMatrix().apply { setToSaturation(0.9f) }
@@ -538,8 +540,21 @@ private fun ExpandedPlayer(
                 IconButton(onClick = {}) {
                     Icon(Icons.Filled.Favorite, contentDescription = "Favorite", tint = VibeTheme.colors.foreground)
                 }
-                IconButton(onClick = {}) {
-                    Icon(Icons.Filled.MoreVert, contentDescription = "More options", tint = VibeTheme.colors.foreground)
+                Box {
+                    IconButton(onClick = { menuOpen = true }) {
+                        Icon(
+                            Icons.Filled.MoreVert,
+                            contentDescription = stringResource(R.string.menus_song_options),
+                            tint = VibeTheme.colors.foreground
+                        )
+                    }
+                    currentSong?.let { song ->
+                        PlayerMenu(
+                            expanded = menuOpen,
+                            onDismissRequest = { menuOpen = false },
+                            song = song
+                        )
+                    }
                 }
             }
         }

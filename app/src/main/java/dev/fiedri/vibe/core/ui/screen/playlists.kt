@@ -63,8 +63,7 @@ fun PlaylistsScreen(
 
     Box(Modifier.fillMaxSize()) {
         LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(bottom = 96.dp)
+            modifier = Modifier.fillMaxSize()
         ) {
             item(key = "favorites") {
                 FavoritesRow(favorites = favorites, onClick = { onPlaylistClick(favorites) })
@@ -232,7 +231,8 @@ private fun PlaylistRow(
                     modifier = Modifier.size(20.dp)
                 )
             }
-            DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false }) {
+            DropdownMenu(expanded = menuOpen, onDismissRequest = { menuOpen = false },
+                shape = RectangleShape) {
                 DropdownMenuItem(
                     text = { Text("Eliminar") },
                     onClick = {
